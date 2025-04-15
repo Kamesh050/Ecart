@@ -1,40 +1,72 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {Product, ProductsResponse} from '../../types/product.entities';
+import {fetchApiResponse, Product} from '../../types/product.entities';
 import {PRODUCT_SERVICE} from '../../service/api';
+import {ApiResponse} from '../../types/common.entities';
 
-export const fetchProducts = createAsyncThunk<Product[], void>(
+type ProductRequest = {
+  page: string;
+  pageSize: string;
+};
+
+type DeleteProfileState = ApiResponse<Product>;
+
+const initialState: DeleteProfileState = {
+  data: undefined,
+  error: undefined,
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+};
+
+export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async () => {
-    const response = await axios.get<ProductsResponse>(
-      PRODUCT_SERVICE.FEATCH_PRODUCTS,
-    );
-    return response.data.products;
+  async (payload: ProductRequest, thunkAPI) => {
+    try {
+      const response = await axios.post<fetchApiResponse>(
+        PRODUCT_SERVICE.FEATCH_PRODUCTS,
+        payload,
+      );
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({
+        error: 'An unexpected error occurred',
+      });
+    }
   },
 );
 
-interface ProductsState {
-  products: Product[];
-  categories: string[];
-}
-
-const initialState: ProductsState = {
-  products: [],
-  categories: [],
-};
-
-const productsSlice = createSlice({
+const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchProducts.fulfilled, (state, action) => {
-      state.products = action.payload;
-      state.categories = [
-        ...new Set(action.payload.map((item: any) => item.category)),
-      ];
-    });
+    builder
+      .addCase(fetchProducts.pending, state => {
+        state.isLoading = true;
+        state.isError = false;
+
+        state.error = undefined;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.error = undefined;
+
+        if (Array.isArray(state.data)) {
+          state.data = [...state.data, ...action.payload.products];
+        } else {
+          state.data = action.payload.products;
+        }
+      })
+
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+
+        state.error = action.error.message;
+      });
   },
 });
 
-export default productsSlice.reducer;
+export default productSlice.reducer;

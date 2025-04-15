@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1050086732794",
+    "project_id": "ecart-30e83",
+    "storage_bucket": "ecart-30e83.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050086732794:android:2df5ce4c0e441838e62a43",
+        "android_client_info": {
+          "package_name": "com.ecart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8QAMdssPXKLuYLikJ4-6mNhixM_zGs7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

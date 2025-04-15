@@ -1,3 +1,4 @@
 export const PRODUCT_SERVICE = {
-  FEATCH_PRODUCTS: 'https://dummyjson.com/products',
+  FEATCH_PRODUCTS:
+    'https://catalog-management-system-dev-ak3ogf6zea-uc.a.run.app/cms/filter/product',
 };
