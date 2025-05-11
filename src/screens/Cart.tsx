@@ -1,8 +1,9 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import type {RouteProp} from '@react-navigation/native';
 import type {RootStackParamList} from '../navigation/AppNavigator';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type CartRouteProp = RouteProp<RootStackParamList, 'Cart'>;
 
@@ -10,6 +11,8 @@ const Cart = () => {
   const route = useRoute<CartRouteProp>();
   const {selectedProduct} = route.params;
 
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const totalPrice = (
     selectedProduct.discounted_price * selectedProduct.quantity
   ).toFixed(2);

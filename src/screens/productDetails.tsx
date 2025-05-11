@@ -18,7 +18,7 @@ const {width} = Dimensions.get('window');
 const ProductDetails = () => {
   const route = useRoute<ProductDetailsRouteProp>();
   const navigation = useNavigation();
-  const {product} = route.params;
+  const {product} = route?.params;
 
   const [quantity, setQuantity] = useState(0);
 
@@ -28,22 +28,22 @@ const ProductDetails = () => {
   const goToCart = () => {
     navigation.navigate('Cart', {selectedProduct: {...product, quantity}});
   };
-  const totalPrice = (product.discounted_price * quantity).toFixed(2);
+  const totalPrice = (product?.discounted_price * quantity).toFixed(2);
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {product.discount_percentage && (
+        {product?.discount_percentage && (
           <View style={styles.discountTag}>
             <Text style={styles.discountText}>
-              {product.discount_percentage ?? 50}% OFF
+              {product?.discount_percentage ?? 50}% OFF
             </Text>
           </View>
         )}
         <Image
           source={
             product?.images?.front
-              ? {uri: product.images.front}
+              ? {uri: product?.images.front}
               : require('../assets/emptyProduct.png')
           }
           style={styles.image}
@@ -51,8 +51,8 @@ const ProductDetails = () => {
         />
       </View>
 
-      <Text style={styles.name}>{product.name}</Text>
-      <Text style={styles.category}>{product.main_category}</Text>
+      <Text style={styles.name}>{product?.name}</Text>
+      <Text style={styles.category}>{product?.main_category}</Text>
 
       <View style={styles.rowBetween}>
         <View style={styles.kgTag}>
@@ -62,9 +62,9 @@ const ProductDetails = () => {
 
       <View style={styles.priceRow}>
         <Text style={styles.discountedPrice}>
-          ₹{quantity > 0 ? totalPrice : product.discounted_price}
+          ₹{quantity > 0 ? totalPrice : product?.discounted_price}
         </Text>
-        <Text style={styles.originalPrice}>₹{product.original_price}</Text>
+        <Text style={styles.originalPrice}>₹{product?.original_price}</Text>
       </View>
 
       {quantity === 0 ? (

@@ -19,17 +19,18 @@ const ProductList = () => {
 
   if (error) return <Text>{error}</Text>;
 
-  if (isLoading && page === 1) {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+  // if (isLoading && page === 1) {
+  //   return (
+  //     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+  //       <ActivityIndicator size="large" />
+  //     </View>
+  //   );
+  // }
 
   const modifiedData = Array.isArray(data)
     ? data.map(item => ({
         ...item,
+        // gtin: item.gtin ?? 'default-gtin',
         images: {
           ...item.images,
           front: item.images?.front,

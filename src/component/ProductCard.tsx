@@ -3,6 +3,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {RootStackParamList} from '../navigation/AppNavigator';
+import Barcode from 'react-native-barcode-svg';
 
 const ProductCard = ({item}: {item: any}) => {
   const navigation =
@@ -22,6 +23,11 @@ const ProductCard = ({item}: {item: any}) => {
         resizeMode="contain"
       />
       <Text style={styles.name}>{item.name}</Text>
+      {item.gtin && (
+        <View style={styles.barcodeContainer}>
+          <Barcode value={item.gtin} format="CODE128" />
+        </View>
+      )}
       <Text style={styles.category}>{item.main_category}</Text>
 
       <Text style={styles.prices}>
@@ -124,6 +130,10 @@ const styles = StyleSheet.create({
   qtyText: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  barcodeContainer: {
+    marginTop: 10,
+    alignItems: 'center',
   },
 });
 
